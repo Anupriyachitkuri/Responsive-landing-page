@@ -3,148 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A premium, professional glassmorphic stopwatch web application with precise timing, Web Audio feedback, accent color themes, and session persistence.">
-    <meta name="keywords" content="stopwatch, professional timer, web utility, glassmorphism, online stopwatch, lap timer, audio stopwatch">
-    <title>AetherStop Pro - Precision Glassmorphic Stopwatch</title>
-    
+    <meta name="description" content="AetherFlow - The ultimate workspace for modern teams. Streamline your project management, design workflow, and developer handoffs in one beautiful dashboard.">
+    <title>AetherFlow | Next-Gen Collaborative Workspace</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
-    <!-- Stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Local Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-cyan">
-    <!-- Background Decorative Elements -->
-    <div class="bg-glow bg-glow-1"></div>
-    <div class="bg-glow bg-glow-2"></div>
-    <div class="bg-glow bg-glow-3"></div>
+<body>
 
-    <main class="app-container">
-        <!-- Main Stopwatch Panel -->
-        <section class="stopwatch-card">
-            <header class="app-header">
-                <div class="header-top">
-                    <!-- Accent Color Theme Switcher -->
-                    <div class="theme-selector" role="radiogroup" aria-label="Select accent theme">
-                        <button class="theme-dot dot-cyan active" data-theme="cyan" title="Cyberpunk Cyan" aria-checked="true"></button>
-                        <button class="theme-dot dot-gold" data-theme="gold" title="Solar Gold" aria-checked="false"></button>
-                        <button class="theme-dot dot-purple" data-theme="purple" title="Nebula Purple" aria-checked="false"></button>
-                        <button class="theme-dot dot-mint" data-theme="mint" title="Emerald Mint" aria-checked="false"></button>
-                    </div>
-                </div>
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress"></div>
 
-                <div class="app-logo">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
-                    </svg>
-                    <h1>Aether<span>Stop</span></h1>
-                    <span class="pro-badge">PRO</span>
-                </div>
-                <p class="app-subtitle">Precision Time Tracking</p>
-            </header>
-
-            <!-- Visual Ring & Time Display -->
-            <div class="timer-outer-ring">
-                <!-- Circular SVG Progress Bar -->
-                <svg class="progress-svg" width="250" height="250" viewBox="0 0 250 250">
-                    <circle class="progress-bg-circle" cx="125" cy="125" r="118" fill="none" stroke="rgba(255,255,255,0.015)" stroke-width="5" />
-                    <circle class="progress-fg-circle" id="progress-ring" cx="125" cy="125" r="118" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" transform="rotate(-90 125 125)" />
+    <!-- Navigation Header -->
+    <header class="main-header" id="navbar">
+        <div class="header-container">
+            <a href="#home" class="logo" id="nav-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
+                    <path d="M16 8L23 15L16 22L9 15L16 8Z" fill="white" fill-opacity="0.8"/>
+                    <circle cx="16" cy="15" r="3" fill="white"/>
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#8B5CF6"/>
+                            <stop offset="1" stop-color="#06B6D4"/>
+                        </linearGradient>
+                    </defs>
                 </svg>
+                <span class="logo-text">Aether<span>Flow</span></span>
+            </a>
 
-                <div class="timer-inner-ring">
-                    <div class="time-display" id="time-display">
-                        <span class="time-main" id="time-main">00:00:00</span>
-                        <span class="time-ms" id="time-ms">.00</span>
+            <!-- Desktop Nav Menu -->
+            <nav class="nav-menu" id="nav-menu-desktop">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                    <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Nav Actions -->
+            <div class="nav-actions">
+                <a href="#pricing" class="btn btn-secondary nav-btn-hide">Login</a>
+                <a href="#contact" class="btn btn-primary nav-btn-hide">Get Started</a>
+                
+                <!-- Hamburger Menu Button -->
+                <button class="hamburger" id="hamburger-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Menu Overlay -->
+    <div class="mobile-overlay" id="mobile-menu-overlay">
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list">
+                <li class="mobile-nav-item"><a href="#home" class="mobile-nav-link">Home</a></li>
+                <li class="mobile-nav-item"><a href="#features" class="mobile-nav-link">Features</a></li>
+                <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
+                <li class="mobile-nav-item"><a href="#pricing" class="mobile-nav-link">Pricing</a></li>
+                <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                <li class="mobile-nav-item"><a href="#contact" class="btn btn-primary mobile-menu-btn">Get Started</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="hero-bg-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+            </div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <span class="badge">Introducing AetherFlow 2.0</span>
+                    <h1 class="hero-title">Where Work Flows <span class="gradient-text">Effortlessly</span></h1>
+                    <p class="hero-description">The all-in-one collaborative workspace that syncs your tasks, documents, and code pipelines. Designed for developers, built for creators, loved by teams worldwide.</p>
+                    <div class="hero-actions">
+                        <a href="#contact" class="btn btn-primary btn-large">Start Free Trial</a>
+                        <a href="#features" class="btn btn-tertiary btn-large">
+                            Explore Features
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="hero-trust">
+                        <p>Trusted by creators at industry leaders</p>
+                        <div class="trust-logos">
+                            <span>▲ Vercel</span>
+                            <span>● Stripe</span>
+                            <span>■ Figma</span>
+                            <span>✦ Notion</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="dashboard-mock">
+                        <div class="mock-header">
+                            <div class="mock-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="mock-address">aetherflow.app/workspace</div>
+                        </div>
+                        <div class="mock-body">
+                            <div class="mock-sidebar">
+                                <div class="sidebar-item active"></div>
+                                <div class="sidebar-item"></div>
+                                <div class="sidebar-item"></div>
+                            </div>
+                            <div class="mock-content">
+                                <div class="content-header-stub"></div>
+                                <div class="content-grid-stub">
+                                    <div class="grid-card-stub card-large">
+                                        <div class="stub-line stub-title"></div>
+                                        <div class="stub-line stub-desc"></div>
+                                        <div class="stub-line stub-desc-short"></div>
+                                    </div>
+                                    <div class="grid-card-stub">
+                                        <div class="stub-line stub-title"></div>
+                                        <div class="stub-chart">
+                                            <svg viewBox="0 0 100 40" width="100%" height="100%">
+                                                <path d="M 0 35 Q 20 15 40 25 T 80 5 T 100 20" fill="none" stroke="url(#chart-grad)" stroke-width="3" stroke-linecap="round"/>
+                                                <defs>
+                                                    <linearGradient id="chart-grad" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+                                                        <stop stop-color="#8B5CF6"/>
+                                                        <stop offset="1" stop-color="#06B6D4"/>
+                                                    </linearGradient>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="grid-card-stub">
+                                        <div class="stub-line stub-title"></div>
+                                        <div class="stub-circles">
+                                            <span></span><span></span><span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Controls Section -->
-            <div class="controls-container">
-                <!-- Reset / Lap Button -->
-                <button id="btn-left" class="btn btn-secondary" disabled aria-label="Lap or Reset">
-                    <span class="btn-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-left">
-                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
-                        </svg>
-                    </span>
-                    <span id="btn-left-text">Lap</span>
-                </button>
+        <!-- Features Section -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge">Core Capabilities</span>
+                    <h2 class="section-title">Engineered to Keep You in <span class="gradient-text">The Zone</span></h2>
+                    <p class="section-subtitle">Everything you need to plan, construct, and release software products without toggling tabs.</p>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- Feature Card 1 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="3" x2="9" y2="21"></line>
+                                <line x1="15" y1="3" x2="15" y2="21"></line>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="3" y1="15" x2="21" y2="15"></line>
+                            </svg>
+                        </div>
+                        <h3 class="feature-card-title">Dynamic Kanban</h3>
+                        <p class="feature-card-desc">Flexible boards that fit your exact workflow. Automate moves with customizable triggers and actions.</p>
+                    </div>
 
-                <!-- Play / Pause Button -->
-                <button id="btn-right" class="btn btn-primary" aria-label="Start or Pause">
-                    <span class="btn-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="icon-right">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                    </span>
-                    <span id="btn-right-text">Start</span>
-                </button>
+                    <!-- Feature Card 2 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2</polygon>
+                                <polyline points="2 17 12 22 22 17"></polyline>
+                                <polyline points="2 12 12 17 22 12"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="feature-card-title">Shared Databases</h3>
+                        <p class="feature-card-desc">Store, link, and visualize datasets your way. Instantly toggle between sheets, calendars, and galleries.</p>
+                    </div>
+
+                    <!-- Feature Card 3 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <h3 class="feature-card-title">Real-Time Sync</h3>
+                        <p class="feature-card-desc">Collaborate instantly with conflict-free multiplayer. Write code, document features, and plan together in real-time.</p>
+                    </div>
+
+                    <!-- Feature Card 4 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="feature-card-title">DevOps Integrations</h3>
+                        <p class="feature-card-desc">Connect Github, Gitlab, and CI/CD pipelines right into tasks. Track deployments directly from your workspace card.</p>
+                    </div>
+
+                    <!-- Feature Card 5 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-card-title">Enterprise Security</h3>
+                        <p class="feature-card-desc">SAML SSO, custom role permissions, and regular audit trails. Keep your source code and documentation completely secure.</p>
+                    </div>
+
+                    <!-- Feature Card 6 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="feature-card-title">Automated Reports</h3>
+                        <p class="feature-card-desc">Generate sprint analytics, team velocity graphs, and burndown metrics automatically with smart summary insights.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Laps History Panel -->
-        <section class="laps-card">
-            <div class="laps-header">
-                <h2>Lap History</h2>
-                <div class="laps-header-actions">
-                    <button id="btn-export-csv" class="btn-action-text" title="Download CSV" style="display: none;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        <span>CSV</span>
-                    </button>
-                    <button id="btn-export-copy" class="btn-action-text" title="Copy to clipboard" style="display: none;">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="action-icon">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                        <span>Copy</span>
-                    </button>
-                    <span class="lap-count-badge" id="lap-count">0 Laps</span>
-                </div>
-            </div>
-            
-            <div class="laps-body" id="laps-container">
-                <!-- Empty State -->
-                <div class="empty-state" id="empty-state">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 6v6l4 2"/>
-                    </svg>
-                    <p>No laps recorded yet.<br>Press Lap while running to track intervals.</p>
-                </div>
-
-                <!-- Laps Table -->
-                <div class="table-wrapper" id="table-wrapper" style="display: none;">
-                    <table class="laps-table">
-                        <thead>
-                            <tr>
-                                <th>Lap</th>
-                                <th>Split Time</th>
-                                <th>Total Time</th>
-                            </tr>
-                        </thead>
-                        <tbody id="laps-list">
-                            <!-- Dynamic rows loaded here -->
-                        </tbody>
-                    </table>
+        <!-- About/Stats Section -->
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-text-content">
+                        <span class="badge">Who We Are</span>
+                        <h2 class="section-title">Built for Modern, <span class="gradient-text">Distributed Teams</span></h2>
+                        <p class="section-description">AetherFlow was born out of frustration. As engineers and product designers, we were tired of managing work across four different complex tools. We built AetherFlow to unite tasks, developer context, and team discussions into a single, lightning-fast platform.</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-num" data-val="10">0</span><span class="stat-suffix">M+</span>
+                                <p class="stat-label">Tasks completed</p>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-num" data-val="99">0</span><span class="stat-suffix">.99%</span>
+                                <p class="stat-label">System uptime</p>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-num" data-val="150">0</span><span class="stat-suffix">k+</span>
+                                <p class="stat-label">Active teams</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-visual">
+                        <div class="glass-card-stack">
+                            <div class="glass-card c1">
+                                <div class="card-user">
+                                    <div class="avatar av-purple">S</div>
+                                    <div>
+                                        <h4>Sarah Connor</h4>
+                                        <p>Product Lead</p>
+                                    </div>
+                                </div>
+                                <p class="card-quote">"AetherFlow reduced our deployment friction to zero. The developers love the GitHub integration."</p>
+                            </div>
+                            <div class="glass-card c2">
+                                <div class="card-user">
+                                    <div class="avatar av-cyan">D</div>
+                                    <div>
+                                        <h4>David Chen</h4>
+                                        <p>Tech Lead</p>
+                                    </div>
+                                </div>
+                                <p class="card-quote">"Having documentation next to task cards is a game-changer. Excellent developer experience."</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section" id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge">Pricing Plans</span>
+                    <h2 class="section-title">Simple Plans for Teams of <span class="gradient-text">All Sizes</span></h2>
+                    <p class="section-subtitle">No hidden fees, cancel anytime. Sign up in seconds.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Plan 1 -->
+                    <div class="pricing-card">
+                        <h3 class="plan-name">Starter</h3>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">/mo</span>
+                        </div>
+                        <p class="plan-desc">For individuals and small side projects starting out.</p>
+                        <ul class="plan-features">
+                            <li><span>✓</span> Up to 5 active projects</li>
+                            <li><span>✓</span> 2GB secure cloud storage</li>
+                            <li><span>✓</span> Basic boards & databases</li>
+                            <li><span>✓</span> Community support</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-secondary btn-full">Get Started Free</a>
+                    </div>
+
+                    <!-- Plan 2 (Highlighted) -->
+                    <div class="pricing-card recommended">
+                        <div class="recommended-badge">Most Popular</div>
+                        <h3 class="plan-name">Pro Team</h3>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">12</span>
+                            <span class="period">/user/mo</span>
+                        </div>
+                        <p class="plan-desc">For growing startups and product development teams.</p>
+                        <ul class="plan-features">
+                            <li><span>✓</span> Unlimited active projects</li>
+                            <li><span>✓</span> 100GB secure cloud storage</li>
+                            <li><span>✓</span> Advanced triggers & automations</li>
+                            <li><span>✓</span> DevOps & GitHub sync</li>
+                            <li><span>✓</span> 24/7 Priority support</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary btn-full">Start 14-Day Trial</a>
+                    </div>
+
+                    <!-- Plan 3 -->
+                    <div class="pricing-card">
+                        <h3 class="plan-name">Enterprise</h3>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">29</span>
+                            <span class="period">/user/mo</span>
+                        </div>
+                        <p class="plan-desc">For large organizations requiring SSO and compliance.</p>
+                        <ul class="plan-features">
+                            <li><span>✓</span> Everything in Pro Team</li>
+                            <li><span>✓</span> Unlimited storage capacity</li>
+                            <li><span>✓</span> Custom SAML SSO integration</li>
+                            <li><span>✓</span> API access & webhooks</li>
+                            <li><span>✓</span> Dedicated Success Manager</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-secondary btn-full">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <span class="badge">Get in Touch</span>
+                        <h2 class="section-title">Ready to Boost Your <span class="gradient-text">Velocity?</span></h2>
+                        <p class="contact-desc">Have questions about integrations, security audits, or enterprise licensing? Send us a message and our team will get back to you within 2 hours.</p>
+                        
+                        <div class="contact-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">✉</div>
+                                <div>
+                                    <h4>Email Us</h4>
+                                    <p>hello@aetherflow.app</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon">📍</div>
+                                <div>
+                                    <h4>HQ Location</h4>
+                                    <p>San Francisco, CA 94103</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-wrapper">
+                        <form id="contact-form" class="contact-form" onsubmit="event.preventDefault(); alert('Thank you for your message! Our team will reach out shortly.'); this.reset();">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="form-name">Name</label>
+                                    <input type="text" id="form-name" placeholder="John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-email">Email</label>
+                                    <input type="email" id="form-email" placeholder="john@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-subject">Subject</label>
+                                <input type="text" id="form-subject" placeholder="Enterprise Licensing / Support" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-message">Message</label>
+                                <textarea id="form-message" rows="5" placeholder="How can we help your team?" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
-    <footer class="app-footer">
-        <p>&copy; 2026 AetherStop Pro. Precision Engineering.</p>
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#home" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="url(#footer-logo-grad)"/>
+                        <path d="M16 8L23 15L16 22L9 15L16 8Z" fill="white" fill-opacity="0.8"/>
+                        <defs>
+                            <linearGradient id="footer-logo-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#8B5CF6"/>
+                                <stop offset="1" stop-color="#06B6D4"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">Aether<span>Flow</span></span>
+                </a>
+                <p class="footer-tagline">Making productivity fluid and elegant.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="GitHub">GitHub</a>
+                    <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                </div>
+            </div>
+            
+            <div class="footer-links-grid">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Developer API</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 AetherFlow Technologies, Inc. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <!-- Script -->
+    <!-- Script File -->
     <script src="script.js"></script>
 </body>
 </html>
